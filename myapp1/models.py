@@ -24,9 +24,8 @@ class Client(User):
         ('TO', 'Toronto'),
         ('CH', 'Chatham'),
         ('WL', 'WATERLOO'),]
-    fullname = models.CharField(max_length=50)
     shipping_address = models.CharField(max_length=300, null=True, blank=True)
-    city=models.CharField(max_length=2, choices=CITY_CHOICES, default='WD')
+    city=models.CharField(max_length=2, choices=CITY_CHOICES, default='CH')
     interested_in = models.ManyToManyField(Type)
     phone_regex = RegexValidator(
         regex=r'^\+?1?\d{9,15}$',
