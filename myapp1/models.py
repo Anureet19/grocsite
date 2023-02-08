@@ -10,6 +10,9 @@ from django.utils import timezone
 class Type(models.Model):
     name = models.CharField(max_length=200)
 
+    def __str__(self):
+        return self.name
+
 class Item(models.Model):
     type = models.ForeignKey(Type, related_name='items', on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
@@ -17,6 +20,9 @@ class Item(models.Model):
     stock = models.PositiveIntegerField(default=100)
     available = models.BooleanField(default=True)
     description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
 
 class Client(User):
     CITY_CHOICES = [
@@ -33,6 +39,9 @@ class Client(User):
     )
     phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True)
 
+    def __str__(self):
+        return self.first_name
+
 class OrderItem(models.Model):
     STATUS_OF_ORDER = [
         (0,'Cancelled Order'),
@@ -45,4 +54,10 @@ class OrderItem(models.Model):
     noOfItems = models.PositiveIntegerField(default=0)
     status = models.CharField(max_length=2, choices=STATUS_OF_ORDER)
     date = models.DateField()
+
+    def __str__(self):
+        return f"{self.client.first_name} ordered {self.total_items_ordered} units of {self.item.name}"
+
+    def total_price(self):
+        return self.item.price * self.total_items_ordered
 
