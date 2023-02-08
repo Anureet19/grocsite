@@ -1,3 +1,4 @@
+from django.core.validators import RegexValidator
 from django.db import models
 import datetime
 
@@ -15,6 +16,7 @@ class Item(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.PositiveIntegerField(default=100)
     available = models.BooleanField(default=True)
+    description = models.TextField(blank=True)
 
 class Client(User):
     CITY_CHOICES = [
@@ -26,6 +28,11 @@ class Client(User):
     shipping_address = models.CharField(max_length=300, null=True, blank=True)
     city=models.CharField(max_length=2, choices=CITY_CHOICES, default='WD')
     interested_in = models.ManyToManyField(Type)
+    phone_regex = RegexValidator(
+        regex=r'^\+?1?\d{9,15}$',
+        message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed."
+    )
+    phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True)
 
 class OrderItem(models.Model):
     STATUS_OF_ORDER = [
@@ -38,5 +45,5 @@ class OrderItem(models.Model):
     client = models.ForeignKey(Client, related_name='client', on_delete=models.CASCADE)
     noOfItems = models.PositiveIntegerField(default=0)
     status = models.CharField(max_length=2, choices=STATUS_OF_ORDER)
-    date = models.DateField
+    date = models.DateField()
 
