@@ -13,7 +13,7 @@ def index(request):
     heading2 = '<p>' + 'Item Name' + ': ' + 'Price' + '</p>'
     response.write(heading1)
     response.write(heading2)
-    for item in item_list:
+    for item in item_list[:10]:
         para = '<p>' + str(item) + ': ' + str(item.price) + '</p>'
         response.write(para)
     return response
