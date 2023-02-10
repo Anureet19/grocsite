@@ -7,11 +7,13 @@ from .models import Type, Item
 
 # Create your views here.
 def index(request):
-    type_list = Type.objects.all().order_by('id')
+    item_list = Item.objects.all().order_by('-price')
     response = HttpResponse()
-    heading1 = '<p>' + 'Different Types: ' + '</p>'
+    heading1 = '<p>' + 'Different Items: ' + '</p>'
+    heading2 = '<p>' + 'Item Name' + ': ' + 'Price' + '</p>'
     response.write(heading1)
-    for type in type_list:
-        para = '<p>' + str(type.id) + ': ' + str(type) + '</p>'
+    response.write(heading2)
+    for item in item_list:
+        para = '<p>' + str(item) + ': ' + str(item.price) + '</p>'
         response.write(para)
     return response
