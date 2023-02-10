@@ -17,3 +17,9 @@ def index(request):
         para = '<p>' + str(item) + ': ' + str(item.price) + '</p>'
         response.write(para)
     return response
+
+def about(request):
+    response = HttpResponse()
+    heading1 = 'This is an Online Grocery Store'
+    response.write(heading1)
+    return response
