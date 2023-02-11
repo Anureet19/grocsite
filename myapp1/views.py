@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Type, Item
 from django.shortcuts import get_list_or_404
+import datetime
 
 # Create your views here.
 def index(request):
@@ -19,9 +20,12 @@ def index(request):
         response.write(para)
     return response
 
-def about(request):
+def about(request, year=None, month=None):
     response = HttpResponse()
-    heading1 = 'This is an Online Grocery Store'
+    heading1 = '<h1>'+'This is an online grocery store'+'</h1>'
+    if (year and month):
+        datetime_obj = datetime.datetime.strptime(str(month), "%m")
+        heading1 = '<h1>'+'This is an online grocery store - ' + datetime_obj.strftime("%B") +' '+ str(year)+'</h1>'
     response.write(heading1)
     return response
 
