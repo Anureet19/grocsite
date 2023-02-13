@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from .models import Type, Item
 from django.shortcuts import get_list_or_404
 import datetime
+from django.shortcuts import render
 
 # Create your views here.
 def index(request):
@@ -37,3 +38,8 @@ def detail(request, type_no= None):
             para = '<p>' + str(item) + '</p>'
             response.write(para)
     return response
+
+def index(request):
+    type_list = Type.objects.all().order_by('id')[:7]
+    return render(request, 'myapp1/index0.html', {'type_list': type_list})
+# YES, we are passing an extra context variables to the template i.e a list of all the types
