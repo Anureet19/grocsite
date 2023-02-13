@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <h1>{{ heading1 }}</h1>
+</head>
+<body>
+    {% block content %}{% endblock %}
+{#    <p><a href="http://127.0.0.1:8000/">Main Page</a></p>#}
+    <p><a href="{% url 'myapp1:index' %}">Main Page</a></p>
+</body>
+</html>

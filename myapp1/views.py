@@ -22,13 +22,15 @@ def index(request):
     return response
 
 def about(request, year=None, month=None):
-    response = HttpResponse()
-    heading1 = '<h1>'+'This is an online grocery store'+'</h1>'
+    # response = HttpResponse()
+    heading1 = {'heading1':'This is an online grocery store'}
     if (year and month):
         datetime_obj = datetime.datetime.strptime(str(month), "%m")
         heading1 = '<h1>'+'This is an online grocery store - ' + datetime_obj.strftime("%B") +' '+ str(year)+'</h1>'
-    response.write(heading1)
-    return response
+    # response.write(heading1)
+    return render(request,'myapp1/about0.html',heading1)
+# YES, passing extra context variable to the template
+# passing "heading1" as context to display main heading on the about page
 
 def detail(request, type_no= None):
     response = HttpResponse()
