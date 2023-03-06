@@ -1,11 +1,16 @@
+{% extends 'myapp1/base.html' %}
 <!DOCTYPE html>
 <html>
 <head>
-    <h1>{{ heading1 }}</h1>
+    <meta charset="UTF-8">
+    <title>About Us</title></head>
 </head>
+{% block body_block %}
 <body>
     {% block content %}{% endblock %}
 {#    <p><a href="http://127.0.0.1:8000/">Main Page</a></p>#}
-    <p><a href="{% url 'myapp1:index' %}">Main Page</a></p>
+    <h1>{{ heading1 }}</h1>
+    <p>This is an online grocery store</p>
 </body>
+{% endblock %}
 </html>

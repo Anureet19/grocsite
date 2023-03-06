@@ -1,9 +1,11 @@
+{% extends 'myapp1/base.html' %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+{% block body_block %}
 <body>
 <h1>List of Items</h1>
     <ul>
@@ -11,6 +13,6 @@
             <li>{{ item }}</li>
         {% endfor %}
     </ul>
-    <p><a href="{% url 'myapp1:index' %}">Main Page</a></p>
 </body>
+{% endblock %}
 </html>
