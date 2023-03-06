@@ -1,0 +1,20 @@
+/* Default styles for h1 tags */
+h1 {
+  background-color: #ffffff;
+  color: #000000;
+  font-size: 24px;
+  font-family: Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+}
+
+/* Example class */
+.hbar1 {
+  display: inline;
+  margin: 15px;
+}
+
+/* Add more styles here */

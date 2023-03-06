@@ -1,9 +1,11 @@
+{% extends 'myapp1/base.html' %}
 <!DOCTYPE html>
 <html>
 <head lang="en">
     <meta charset="UTF-8">
     <title> Online Grocery Store </title>
 </head>
+{% block body_block %}
 <body>
     {% if type_list %}
         <h2> List of Types </h2>
@@ -17,4 +19,5 @@
     {% endif %}
     <p><a href="{% url 'myapp1:about' %}">About Page</a></p>
 </body>
+{% endblock %}
 </html>
