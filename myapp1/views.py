@@ -46,3 +46,6 @@ def index(request):
 def items(request):
     itemlist = Item.objects.all().order_by('id')[:20]
     return render(request, 'myapp1/items.html', {'itemlist': itemlist})
+
+def placeorder(request):
+    return render(request, 'myapp1/placeorder.html')

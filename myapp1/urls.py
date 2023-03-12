@@ -7,5 +7,6 @@ urlpatterns = [
  path('about/', views.about, name='about'),
  path('about/<int:year>/<int:month>', views.about, name='about'),
  path('myapp/<int:type_no>', views.detail, name='myapp'),
- path('items/', views.items, name='myapp1_items'),
+ path('items/', views.items, name='items'),
+ path('placeorder/', views.placeorder, name='placeorder'),
 ]
