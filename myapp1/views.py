@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Type, Item
 from django.shortcuts import get_list_or_404
+from django.shortcuts import get_object_or_404
 import datetime
 from django.shortcuts import render
 
@@ -32,8 +33,9 @@ def about(request, year=None, month=None):
 
 def detail(request, type_no= None):
     if(type_no):
+        item_type = str(Type.objects.get(id=type_no))
         item_list = get_list_or_404(Item, type=type_no)
-    return render(request,"myapp1/detail0.html",{'item_list':item_list})
+    return render(request,"myapp1/detail0.html",{'item_list':item_list, 'type':item_type})
 # YES, we are passing an extra context variables to the template i.e a list of all the items to display on the page
 
 def index(request):

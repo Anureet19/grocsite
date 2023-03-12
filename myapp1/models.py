@@ -23,7 +23,11 @@ class Item(models.Model):
     stock = models.PositiveIntegerField(default=100)
     available = models.BooleanField(default=True)
     description = models.TextField(blank=True)
+    interested = models.PositiveIntegerField(default=0)
 
+    def topup(self):
+        self.stock += 200
+        self.save()
     def __str__(self):
         return self.name
 

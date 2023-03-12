@@ -7,7 +7,7 @@
 </head>
 {% block body_block %}
 <body>
-<h1>List of Items</h1>
+<h1>List of {{ type }}</h1>
     <ul>
         {% for item in item_list %}
             <li>{{ item }}</li>
