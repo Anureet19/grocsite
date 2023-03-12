@@ -42,3 +42,7 @@ def index(request):
     type_list = Type.objects.all().order_by('id')[:7]
     return render(request, 'myapp1/index0.html', {'type_list': type_list})
 # YES, we are passing an extra context variables to the template i.e a list of all the types
+
+def items(request):
+    itemlist = Item.objects.all().order_by('id')[:20]
+    return render(request, 'myapp1/items.html', {'itemlist': itemlist})
