@@ -8,6 +8,7 @@ from django.shortcuts import get_list_or_404
 from django.shortcuts import get_object_or_404
 import datetime
 from django.shortcuts import render
+from .forms import OrderItemForm
 
 # Create your views here.
 def index(request):
@@ -49,3 +50,22 @@ def items(request):
 
 def placeorder(request):
     return render(request, 'myapp1/placeorder.html')
+
+def placeorder(request):
+    msg = ''
+    itemlist = Item.objects.all()
+
+    if request.method == 'POST':
+        form = OrderItemForm(request.POST)
+        if form.is_valid():
+            order = form.save(commit=False)
+            if order.total_items_ordered <= order.item.stock:
+                order.save()
+                order.item.stock -= order.total_items_ordered
+                msg = 'Your order has been placed successfully.'
+            else :
+                msg = 'We do not have sufficient stock to fill your order.'
+                return render(request, 'myapp1/order_response.html', {'msg': msg})
+    else:
+        form = OrderItemForm()
+    return render(request, 'myapp1/placeorder.html', {'form': form, 'msg': msg, 'itemlist': itemlist})

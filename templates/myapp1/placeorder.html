@@ -1,5 +1,21 @@
-<!DOCTYPE html>
 {% extends 'myapp1/base.html' %}
+
+{% block title %}Place Order{% endblock %}
+
+{% block myhdg %}Place Order{% endblock %}
+
 {% block body_block %}
-    <h2>You can place your order here</h2>
+    <h2>Available Items</h2>
+    <ul>
+        {% for item in itemlist %}
+            <li>{{ item.name }} - ${{ item.price }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Order Form</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Place Order</button>
+    </form>
 {% endblock %}
