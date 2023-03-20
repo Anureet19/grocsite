@@ -2,7 +2,9 @@ from django.shortcuts import render
 
 # Create your views here.
 # Import necessary classes
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
+
 from .models import Type, Item
 from django.shortcuts import get_list_or_404
 from django.shortcuts import get_object_or_404
@@ -10,6 +12,8 @@ import datetime
 from django.shortcuts import render
 from .forms import OrderItemForm
 from .forms import InterestForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 # Create your views here.
 def index(request):
@@ -86,4 +90,26 @@ def itemdetail(request, item_id):
         else:
             form = InterestForm()
     return render(request, 'myapp1/itemdetail.html', {'item': item, 'form': form, 'msg': msg})
+
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user:
+            if user.is_active:
+                login(request, user)
+                return HttpResponseRedirect(reverse('myapp1:index'))
+            else:
+                return HttpResponse('Your account is disabled.')
+        else:
+            return HttpResponse('Invalid login details.')
+    else:
+        return render(request, 'myapp1/login.html')
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect(reverse(('myapp1:index')))
+
 
