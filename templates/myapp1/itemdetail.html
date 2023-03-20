@@ -1,0 +1,18 @@
+{% extends 'myapp1/base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+{% block body_block %}
+<body>
+<h1>List of {{ item }}</h1>
+    <ul>
+        {% for each_item in item %}
+            <li>{{ each_item.name }} - {{ each_item.price }}</li>
+        {% endfor %}
+    </ul>
+</body>
+{% endblock %}
+</html>

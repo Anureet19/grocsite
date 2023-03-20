@@ -9,6 +9,7 @@ from django.shortcuts import get_object_or_404
 import datetime
 from django.shortcuts import render
 from .forms import OrderItemForm
+from .forms import InterestForm
 
 # Create your views here.
 def index(request):
@@ -69,3 +70,24 @@ def placeorder(request):
     else:
         form = OrderItemForm()
     return render(request, 'myapp1/placeorder.html', {'form': form, 'msg': msg, 'itemlist': itemlist})
+
+def submitDetail(request):
+    return render(request, 'myapp1/order_response.html')
+# def itemdetail(request, item_id):
+#     item = get_object_or_404(Item, pk=item_id)
+#     interested = item.interest_set.count()
+#     if item.stock == 0:
+#         msg = 'Sorry, this item is currently out of stock.'
+#     else:
+#         msg = ''
+#     if request.method == 'POST':
+#         form = InterestForm(request.POST)
+#         if form.is_valid():
+#             form.instance.item = item
+#             form.save()
+#             msg = 'Thank you for showing interest in this item!'
+#     else:
+#         form = InterestForm()
+#     return render(request, 'myapp1/itemdetail.html',
+#                   {'item': item, 'interested': interested, 'price': item.price, 'form': form, 'msg': msg})
+

@@ -9,4 +9,6 @@ urlpatterns = [
  path('myapp/<int:type_no>', views.detail, name='myapp'),
  path('items/', views.items, name='items'),
  path('placeorder/', views.placeorder, name='placeorder'),
+ path('orderResponse/', views.submitDetail, name='order_response'),
+ # path('myapp1/items/<int:item_id>', views.itemdetail, name='itemdetail'),
 ]

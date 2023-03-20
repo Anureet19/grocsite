@@ -6,4 +6,8 @@
 
 {% block body_block %}
   <p>{{ msg }}</p>
+    <form method="post">
+		{% csrf_token %}
+		<input type="submit" value="Go back to place order page">
+	</form>
 {% endblock %}
