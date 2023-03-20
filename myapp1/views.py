@@ -15,19 +15,6 @@ from .forms import InterestForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 
-# Create your views here.
-# def index(request):
-#     item_list = Item.objects.all().order_by('-price')
-#     response = HttpResponse()
-#     heading1 = '<p>' + 'Different Items: ' + '</p>'
-#     heading2 = '<p>' + 'Item Name' + ': ' + 'Price' + '</p>'
-#     response.write(heading1)
-#     response.write(heading2)
-#     for item in item_list[:10]:
-#         para = '<p>' + str(item) + ': ' + str(item.price) + '</p>'
-#         response.write(para)
-#     return response
-
 @login_required()
 def about(request, year=None, month=None):
     heading1 = {'heading1':'This is an online grocery store'}
@@ -56,10 +43,6 @@ def index(request):
 def items(request):
     itemlist = Item.objects.all().order_by('id')[:20]
     return render(request, 'myapp1/items.html', {'itemlist': itemlist})
-
-# @login_required()
-# def placeorder(request):
-#     return render(request, 'myapp1/placeorder.html')
 
 @login_required()
 def placeorder(request):
