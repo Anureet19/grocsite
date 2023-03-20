@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 
-from .models import Type, Item
+from .models import Type, Item, OrderItem
 from django.shortcuts import get_list_or_404
 from django.shortcuts import get_object_or_404
 import datetime
@@ -16,18 +16,19 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 # Create your views here.
-def index(request):
-    item_list = Item.objects.all().order_by('-price')
-    response = HttpResponse()
-    heading1 = '<p>' + 'Different Items: ' + '</p>'
-    heading2 = '<p>' + 'Item Name' + ': ' + 'Price' + '</p>'
-    response.write(heading1)
-    response.write(heading2)
-    for item in item_list[:10]:
-        para = '<p>' + str(item) + ': ' + str(item.price) + '</p>'
-        response.write(para)
-    return response
+# def index(request):
+#     item_list = Item.objects.all().order_by('-price')
+#     response = HttpResponse()
+#     heading1 = '<p>' + 'Different Items: ' + '</p>'
+#     heading2 = '<p>' + 'Item Name' + ': ' + 'Price' + '</p>'
+#     response.write(heading1)
+#     response.write(heading2)
+#     for item in item_list[:10]:
+#         para = '<p>' + str(item) + ': ' + str(item.price) + '</p>'
+#         response.write(para)
+#     return response
 
+@login_required()
 def about(request, year=None, month=None):
     heading1 = {'heading1':'This is an online grocery store'}
     if (year and month):
@@ -37,6 +38,7 @@ def about(request, year=None, month=None):
 # YES, passing extra context variable to the template
 # passing "heading1" as context to display main heading on the about page
 
+@login_required()
 def detail(request, type_no= None):
     if(type_no):
         item_type = str(Type.objects.get(id=type_no))
@@ -44,18 +46,22 @@ def detail(request, type_no= None):
     return render(request,"myapp1/detail0.html",{'item_list':item_list, 'type':item_type})
 # YES, we are passing an extra context variables to the template i.e a list of all the items to display on the page
 
+@login_required()
 def index(request):
     type_list = Type.objects.all().order_by('id')[:7]
     return render(request, 'myapp1/index0.html', {'type_list': type_list})
 # YES, we are passing an extra context variables to the template i.e a list of all the types
 
+@login_required()
 def items(request):
     itemlist = Item.objects.all().order_by('id')[:20]
     return render(request, 'myapp1/items.html', {'itemlist': itemlist})
 
-def placeorder(request):
-    return render(request, 'myapp1/placeorder.html')
+# @login_required()
+# def placeorder(request):
+#     return render(request, 'myapp1/placeorder.html')
 
+@login_required()
 def placeorder(request):
     msg = ''
     itemlist = Item.objects.all()
@@ -75,6 +81,7 @@ def placeorder(request):
         form = OrderItemForm()
     return render(request, 'myapp1/placeorder.html', {'form': form, 'msg': msg, 'itemlist': itemlist})
 
+@login_required()
 def itemdetail(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
     if not item.available:
@@ -110,6 +117,16 @@ def user_login(request):
 @login_required
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect(reverse(('myapp1:index')))
+    return HttpResponseRedirect(reverse(('myapp1:login')))
+
+@login_required
+def myorders(request):
+    user = request.user
+    if user.is_staff:
+        orders = OrderItem.objects.filter(client=user)
+        return render(request, 'myapp1/myorders.html', {'orders': orders})
+    else:
+        message = 'You are not a registered client!'
+        return render(request, 'myapp1/myorders.html', {'message': message})
 
 

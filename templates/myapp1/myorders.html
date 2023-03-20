@@ -1,0 +1,22 @@
+{% extends 'myapp1/base.html' %}
+
+{% block title %} My Orders {% endblock %}
+
+{% block myhdg %} My Orders {% endblock %}
+
+{% block body_block %}
+    {% if orders %}
+        <h2>Orders placed by {{ request.user.username }}:</h2>
+        <ul>
+            {% for order in orders %}
+                <li>{{ order.date }} - Total: {{ order.total }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No orders have been placed yet.</p>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+    </form>
+{% endblock %}
