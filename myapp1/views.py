@@ -1,5 +1,3 @@
-from django.shortcuts import render
-
 # Create your views here.
 # Import necessary classes
 from django.http import HttpResponse, HttpResponseRedirect
@@ -13,36 +11,44 @@ from django.shortcuts import render
 from .forms import OrderItemForm
 from .forms import InterestForm
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
+
 
 @login_required()
 def about(request, year=None, month=None):
-    heading1 = {'heading1':'This is an online grocery store'}
+    heading1 = {'heading1': 'This is an online grocery store'}
     if (year and month):
         datetime_obj = datetime.datetime.strptime(str(month), "%m")
-        heading1 = {'heading1':'This is an online grocery store : '+ datetime_obj.strftime("%B") +' '+ str(year)}
-    return render(request,'myapp1/about0.html',heading1)
+        heading1 = {'heading1': 'This is an online grocery store : ' + datetime_obj.strftime("%B") + ' ' + str(year)}
+    return render(request, 'myapp1/about0.html', heading1)
+
+
 # YES, passing extra context variable to the template
 # passing "heading1" as context to display main heading on the about page
 
 @login_required()
-def detail(request, type_no= None):
-    if(type_no):
+def detail(request, type_no=None):
+    if (type_no):
         item_type = str(Type.objects.get(id=type_no))
         item_list = get_list_or_404(Item, type=type_no)
-    return render(request,"myapp1/detail0.html",{'item_list':item_list, 'type':item_type})
+    return render(request, "myapp1/detail0.html", {'item_list': item_list, 'type': item_type})
+
+
 # YES, we are passing an extra context variables to the template i.e a list of all the items to display on the page
 
 @login_required()
 def index(request):
     type_list = Type.objects.all().order_by('id')[:7]
     return render(request, 'myapp1/index0.html', {'type_list': type_list})
+
+
 # YES, we are passing an extra context variables to the template i.e a list of all the types
 
 @login_required()
 def items(request):
     itemlist = Item.objects.all().order_by('id')[:20]
     return render(request, 'myapp1/items.html', {'itemlist': itemlist})
+
 
 @login_required()
 def placeorder(request):
@@ -57,12 +63,13 @@ def placeorder(request):
                 order.save()
                 order.item.stock -= order.total_items_ordered
                 msg = 'Your order has been placed successfully.'
-            else :
+            else:
                 msg = 'We do not have sufficient stock to fill your order.'
                 return render(request, 'myapp1/order_response.html', {'msg': msg})
     else:
         form = OrderItemForm()
     return render(request, 'myapp1/placeorder.html', {'form': form, 'msg': msg, 'itemlist': itemlist})
+
 
 @login_required()
 def itemdetail(request, item_id):
@@ -81,6 +88,7 @@ def itemdetail(request, item_id):
             form = InterestForm()
     return render(request, 'myapp1/itemdetail.html', {'item': item, 'form': form, 'msg': msg})
 
+
 def user_login(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -97,10 +105,12 @@ def user_login(request):
     else:
         return render(request, 'myapp1/login.html')
 
+
 @login_required
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse(('myapp1:login')))
+
 
 @login_required
 def myorders(request):
@@ -111,5 +121,3 @@ def myorders(request):
     else:
         message = 'You are not a registered client!'
         return render(request, 'myapp1/myorders.html', {'message': message})
-
-
