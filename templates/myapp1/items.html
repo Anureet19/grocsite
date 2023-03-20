@@ -4,8 +4,9 @@
     <h2>Available Items:</h2>
     <ul>
         {% for item in itemlist %}
-            <li>{{ item.name }} - {{ item.price }}</li>
+            <li><a href="{% url 'myapp1:itemdetail' item.id %}">{{ item.name }}</a> - {{ item.price }}</li>
         {% endfor %}
     </ul>
     <a href="{% url 'myapp1:placeorder' %}">Place Order</a>
 {% endblock %}
+
