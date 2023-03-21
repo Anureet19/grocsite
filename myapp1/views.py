@@ -62,6 +62,7 @@ def placeorder(request):
             if order.total_items_ordered <= order.item.stock:
                 order.save()
                 order.item.stock -= order.total_items_ordered
+                order.item.save()
                 msg = 'Your order has been placed successfully.'
             else:
                 msg = 'We do not have sufficient stock to fill your order.'

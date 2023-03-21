@@ -26,8 +26,8 @@ class Item(models.Model):
     interested = models.PositiveIntegerField(default=0)
 
     def topup(self):
-        self.stock += 200
-        self.save()
+        return self.stock + 200
+        # self.save()
     def __str__(self):
         return self.name
 
